@@ -2,7 +2,7 @@ package syncer
 
 import (
 	"fmt"
-	package_manager "xi/src/package-manager"
+	package_manager "xi/src/package_manager"
 )
 
 type Package string

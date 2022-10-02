@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os/exec"
 	"strings"
-	"xi/src/package-manager/util"
+	"xi/src/package_manager/util"
 )
 
 type Xbps struct {

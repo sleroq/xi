@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	package_manager "xi/src/package-manager"
+	"xi/src/package_manager"
 	"path"
 	"xi/src/syncer"
 
