@@ -89,8 +89,6 @@ func generateConfig(filePath string) (*Configuration, error) {
 		config.Packages[name] = rawGroups{ defaultGroup: group }
 	}
 
-	fmt.Println(config.Packages)
-
 	encoder := toml.NewEncoder(f)
 	encoder.Indent = defaultIndent
 
@@ -199,8 +197,6 @@ func resolveManagers(inputManagers rawManagers) (managers Managers, err error) {
 		if err != nil {
 			return Managers{}, fmt.Errorf("resolving groups for \"%s\": %s", manager, err)
 		}
-
-		fmt.Println("meow")
 	}
 
 	return managers, nil
