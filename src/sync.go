@@ -1,13 +1,10 @@
-package syncer
+package main
 
 import (
 	"fmt"
 	"xi/src/package_manager"
 )
 
-type Package string
-type PackageGroup []Package
-type Groups map[string]PackageGroup
 
 func contains[T comparable](slice []T, value T) bool {
 	for _, name := range slice {
@@ -19,7 +16,7 @@ func contains[T comparable](slice []T, value T) bool {
 	return false
 }
 
-func SyncGroups(pm package_manager.Pm, groups Groups) error {
+func SyncGroups(pm package_manager.PM, groups Groups) error {
 	configPkgs := []Package{}
 	for _, pkgs := range groups {
 		configPkgs = append(configPkgs, pkgs...)
@@ -38,7 +35,7 @@ func SyncGroups(pm package_manager.Pm, groups Groups) error {
 	return nil
 }
 
-func InstallMissings(pm package_manager.Pm, pkgs []Package) error {
+func InstallMissings(pm package_manager.PM, pkgs []Package) error {
 	installed, err := pm.GetInstalled()
 	if err != nil {
 		return fmt.Errorf("getting list of installed packages: %w", err)
@@ -58,7 +55,7 @@ func InstallMissings(pm package_manager.Pm, pkgs []Package) error {
 	return nil
 }
 
-func RemoveRedundant(pm package_manager.Pm, configPkgs []Package) error {
+func RemoveRedundant(pm package_manager.PM, configPkgs []Package) error {
 	installed, err := pm.GetInstalled()
 	if err != nil {
 		return fmt.Errorf("getting list of installed packages: %w", err)
