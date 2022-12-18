@@ -37,3 +37,50 @@ This will generate new config in =$XDG_CONFIG_HOME/xi/config.toml=
 
 To install something - add package name to the list, then run =xi= again
 To remove something - remove or comment out package name from the list, then run =xi= again
+*** Example config
+#+begin_src toml
+[Packages]
+  [Packages.paru]
+    MostImportant = [ "neofetch" ]
+
+    Apps = [
+      "cinny-desktop-bin",
+      "discord",
+      "telegram-desktop",
+      "safeeyes",
+
+      "virtualbox",
+      "virtualbox-guest-iso",
+      "virtualbox-host-dkms",
+    ]
+
+    GuiTools = [
+      "ark",
+      "aseprite",
+      "zathura-pdf-mupdf",
+      "wine-staging",
+
+      "thunar",
+      "thunar-volman",
+    ]
+
+    CliTools = [
+      "acpi",     # Battery thing
+      "autoconf", # Do I need this?
+      "bpytop",
+      "bore",
+      "tldr",
+      "wget",
+      "tmux",
+      "which",
+    ]
+
+    System = [
+      "archlinux-keyring",
+      "base",
+      "zsh",
+      "zoxide",
+      "xorg-server",
+      "xorg-xinit",
+    ]
+#+end_src
