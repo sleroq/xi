@@ -20,7 +20,7 @@ func New() *Pacman {
 
 func (*Pacman) Install(pkgs ...util.Package) error {
 	cmd := []string{"pacman", "-S", "--noconfirm"}
-	res, err := util.SudoRun(append(cmd, util.PkgsToString(pkgs))...)
+	res, err := util.SudoRun(append(cmd, util.PkgsToStrings(pkgs)...)...)
 	if err != nil {
 		return fmt.Errorf("executing pacman -S: %w", err)
 	}
@@ -32,7 +32,7 @@ func (*Pacman) Install(pkgs ...util.Package) error {
 
 func (*Pacman) Remove(pkgs ...util.Package) error {
 	cmd := []string{"pacman", "-R"} //, "--noconfirm"}
-	res, err := util.SudoRun(append(cmd, util.PkgsToString(pkgs))...)
+	res, err := util.SudoRun(append(cmd, util.PkgsToStrings(pkgs)...)...)
 	if err != nil {
 		return fmt.Errorf("executing pacman -R: %w", err)
 	}
