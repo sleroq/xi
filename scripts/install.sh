@@ -18,8 +18,9 @@ if [ -z "$BIN" ]
 then
     echo "GOBIN and GOPATH are not set.
 Add binary (built/xi) to your \$PATH manually."
+    exit 1
 fi
 
 scripts/build.sh
 
-cp built/xi "$BIN"/xi
+cp built/xi "$BIN"
