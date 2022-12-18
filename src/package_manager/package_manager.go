@@ -39,7 +39,7 @@ func addIfAvailible(pms map[string]PM, s string) (map[string]PM, error) {
 	if commandExists(s) {
 		pm, err := New(s)
 		if err != nil {
-			return nil, fmt.Errorf("creating \"%s\" package manager interface: %s", s, err)
+			return nil, fmt.Errorf("creating \"%s\" package manager interface: %w", s, err)
 		}
 		pms[s] = pm
 	}

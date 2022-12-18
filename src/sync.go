@@ -21,41 +21,41 @@ func syncPackages(config Configuration) error {
 	if config.Managers.Xbps != nil {
 		xbps, err := pm.New("xbps")
 		if err != nil {
-			return fmt.Errorf("getting xbps: %s", err)
+			return fmt.Errorf("getting xbps: %w", err)
 		}
 		err = syncGroups(xbps, config.Managers.Xbps)
 		if err != nil {
-			return fmt.Errorf("syncing xbps groups: %s", err)
+			return fmt.Errorf("syncing xbps groups: %w", err)
 		}
 	}
 	if config.Managers.Pacman != nil {
 		pacman, err := pm.New("pacman")
 		if err != nil {
-			return fmt.Errorf("getting pacman: %s", err)
+			return fmt.Errorf("getting pacman: %w", err)
 		}
 		err = syncGroups(pacman, config.Managers.Pacman)
 		if err != nil {
-			return fmt.Errorf("syncing pacman groups: %s", err)
+			return fmt.Errorf("syncing pacman groups: %w", err)
 		}
 	}
 	if config.Managers.Paru != nil {
 		paru, err := pm.New("paru")
 		if err != nil {
-			return fmt.Errorf("getting paru: %s", err)
+			return fmt.Errorf("getting paru: %w", err)
 		}
 		err = syncGroups(paru, config.Managers.Paru)
 		if err != nil {
-			return fmt.Errorf("syncing paru groups: %s", err)
+			return fmt.Errorf("syncing paru groups: %w", err)
 		}
 	}
 	if config.Managers.Yay != nil {
 		yay, err := pm.New("pacman")
 		if err != nil {
-			return fmt.Errorf("getting yay: %s", err)
+			return fmt.Errorf("getting yay: %w", err)
 		}
 		err = syncGroups(yay, config.Managers.Yay)
 		if err != nil {
-			return fmt.Errorf("syncing yay groups: %s", err)
+			return fmt.Errorf("syncing yay groups: %w", err)
 		}
 	}
 

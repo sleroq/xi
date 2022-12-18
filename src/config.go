@@ -60,7 +60,7 @@ func generateConfig(filePath string) (*Configuration, error) {
 
 	pms, err := package_manager.AvailibleManagers()
 	if err != nil {
-		return nil, fmt.Errorf("getting availible package managers: %s", err)
+		return nil, fmt.Errorf("getting availible package managers: %w", err)
 	}
 
 	for name, manager := range pms {
@@ -73,7 +73,7 @@ func generateConfig(filePath string) (*Configuration, error) {
 
 		pkgs, err := manager.GetInstalled()
 		if err != nil {
-			return nil, fmt.Errorf("getting installed packages from %s: %s", name, err)
+			return nil, fmt.Errorf("getting installed packages from %s: %w", name, err)
 		}
 
 		if len(pkgs) == 0 {
@@ -146,7 +146,7 @@ func resolveGroups(inputGroups rawGroups) (groups Groups, err error) {
 
 		for _, rawPkg := range pkgs {
 			if val, ok := rawPkg.(string); ok {
-				group = append(group, util.Package{val, ""})
+				group = append(group, util.Package{Name: val, Version: ""})
 			} else if val, ok := rawPkg.([]interface{}); ok {
 				pkg := util.Package{}
 				for i, value := range val {
@@ -195,7 +195,7 @@ func resolveManagers(inputManagers rawManagers) (managers Managers, err error) {
 		}
 
 		if err != nil {
-			return Managers{}, fmt.Errorf("resolving groups for \"%s\": %s", manager, err)
+			return Managers{}, fmt.Errorf("resolving groups for \"%s\": %w", manager, err)
 		}
 	}
 
@@ -207,7 +207,7 @@ func resolveConfig(parsed rawConfiguration) (config *Configuration, err error) {
 	config = &Configuration{}
 	config.Managers, err = resolveManagers(parsed.Packages)
 	if err != nil {
-		return nil, fmt.Errorf("resolving package managers: %s", err)
+		return nil, fmt.Errorf("resolving package managers: %w", err)
 	}
 	return config, nil
 }
