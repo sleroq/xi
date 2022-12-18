@@ -124,10 +124,10 @@ func RemoveRedundant(pm pm.PM, pkgs []util.Package) error {
 
 	}
 
-	toRemovString := strings.Join(util.PkgsToStrings(toRemove), ", ")
-	fmt.Println("Packages to be removed:", toRemovString)
-
 	if len(toRemove) > 0 {
+		toRemovString := strings.Join(util.PkgsToStrings(toRemove), ", ")
+		fmt.Println("Packages to be removed:", toRemovString)
+
 		err = pm.Remove(toRemove...)
 		if err != nil {
 			return fmt.Errorf("removing package: %w", err)
