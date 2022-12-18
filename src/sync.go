@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"xi/src/package_manager"
+	pm "xi/src/package_manager"
+	"xi/src/package_manager/util"
 )
-
 
 func contains[T comparable](slice []T, value T) bool {
 	for _, name := range slice {
@@ -16,18 +16,65 @@ func contains[T comparable](slice []T, value T) bool {
 	return false
 }
 
-func SyncGroups(pm package_manager.PM, groups Groups) error {
-	configPkgs := []Package{}
-	for _, pkgs := range groups {
-		configPkgs = append(configPkgs, pkgs...)
+func syncPackages(config Configuration) error {
+	if config.Managers.Xbps != nil {
+		xbps, err := pm.New("xbps")
+		if err != nil {
+			return fmt.Errorf("getting xbps: %s", err)
+		}
+		err = syncGroups(xbps, config.Managers.Xbps)
+		if err != nil {
+			return fmt.Errorf("syncing xbps groups: %s", err)
+		}
+	}
+	if config.Managers.Pacman != nil {
+		pacman, err := pm.New("pacman")
+		if err != nil {
+			return fmt.Errorf("getting pacman: %s", err)
+		}
+		err = syncGroups(pacman, config.Managers.Pacman)
+		if err != nil {
+			return fmt.Errorf("syncing pacman groups: %s", err)
+		}
+	}
+	if config.Managers.Paru != nil {
+		paru, err := pm.New("paru")
+		if err != nil {
+			return fmt.Errorf("getting paru: %s", err)
+		}
+		err = syncGroups(paru, config.Managers.Paru)
+		if err != nil {
+			return fmt.Errorf("syncing paru groups: %s", err)
+		}
+	}
+	if config.Managers.Yay != nil {
+		yay, err := pm.New("pacman")
+		if err != nil {
+			return fmt.Errorf("getting yay: %s", err)
+		}
+		err = syncGroups(yay, config.Managers.Yay)
+		if err != nil {
+			return fmt.Errorf("syncing yay groups: %s", err)
+		}
 	}
 
-	err := InstallMissings(pm, configPkgs)
-	if err != nil {
-		return fmt.Errorf("installing packages: %w", err)
+	return nil
+}
+
+func syncGroups(pm pm.PM, pkgsGroups Groups) error {
+	statedPackages := []util.Package{}
+
+	// Installing per group:
+	for _, group := range pkgsGroups {
+		err := InstallMissings(pm, group)
+		if err != nil {
+			return fmt.Errorf("installing packages: %w", err)
+		}
+
+		statedPackages = append(statedPackages, group...)
 	}
 
-	err = RemoveRedundant(pm, configPkgs)
+	err := RemoveRedundant(pm, statedPackages)
 	if err != nil {
 		return fmt.Errorf("removing packages: %w", err)
 	}
@@ -35,18 +82,23 @@ func SyncGroups(pm package_manager.PM, groups Groups) error {
 	return nil
 }
 
-func InstallMissings(pm package_manager.PM, pkgs []Package) error {
+func InstallMissings(pm pm.PM, pkgs []util.Package) error {
 	installed, err := pm.GetInstalled()
 	if err != nil {
 		return fmt.Errorf("getting list of installed packages: %w", err)
 	}
+	installedList := util.PkgsToStrings(installed)
 
+	toInstall := []util.Package{}
 	for _, pkg := range pkgs {
-		if contains(installed, string(pkg)) {
-			continue
+		if !contains(installedList, pkg.Name) {
+			toInstall = append(toInstall, pkg)
 		}
 
-		err := pm.Install(string(pkg))
+	}
+
+	if len(toInstall) > 0 {
+		err = pm.Install(toInstall...)
 		if err != nil {
 			return fmt.Errorf("installing package: %w", err)
 		}
@@ -55,20 +107,25 @@ func InstallMissings(pm package_manager.PM, pkgs []Package) error {
 	return nil
 }
 
-func RemoveRedundant(pm package_manager.PM, configPkgs []Package) error {
+func RemoveRedundant(pm pm.PM, pkgs []util.Package) error {
 	installed, err := pm.GetInstalled()
 	if err != nil {
 		return fmt.Errorf("getting list of installed packages: %w", err)
 	}
+	stated := util.PkgsToStrings(pkgs)
 
+	toRemove := []util.Package{}
 	for _, pkg := range installed {
-		if contains(configPkgs, Package(pkg)) {
-			continue
+		if !contains(stated, pkg.Name) {
+			toRemove = append(toRemove, pkg)
 		}
 
-		err := pm.Remove(pkg)
+	}
+
+	if len(toRemove) > 0 {
+		err = pm.Remove(toRemove...)
 		if err != nil {
-			return fmt.Errorf("installing package: %w", err)
+			return fmt.Errorf("removing package: %w", err)
 		}
 	}
 
