@@ -14,12 +14,13 @@ Requirements:
 
 Supported package managers:
 - pacman, paru, yay
+- xbps (soon)
+- apt (soon)
 
 
 Clone:
 #+begin_src shell
 git clone https://github.com/sleroq/xi.git
-
 #+end_src
 
 Run install script:
@@ -27,7 +28,7 @@ Run install script:
 xi/scripts/install.sh
 #+end_src
 
-Script will build app and move it to =$GOBIN= or =$GOPATH/bin=
+Script will build app and copy executable to =$GOBIN= or =$GOPATH/bin=
 
 *** First run
 
