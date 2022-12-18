@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	pm "xi/src/package_manager"
 	"xi/src/package_manager/util"
 )
@@ -118,9 +119,13 @@ func RemoveRedundant(pm pm.PM, pkgs []util.Package) error {
 	for _, pkg := range installed {
 		if !contains(stated, pkg.Name) {
 			toRemove = append(toRemove, pkg)
+
 		}
 
 	}
+
+	toRemovString := strings.Join(util.PkgsToStrings(toRemove), ", ")
+	fmt.Println("Packages to be removed:", toRemovString)
 
 	if len(toRemove) > 0 {
 		err = pm.Remove(toRemove...)
