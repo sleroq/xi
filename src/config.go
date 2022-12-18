@@ -29,10 +29,10 @@ func configDir() string {
 type PackageGroup []util.Package
 type Groups map[string]PackageGroup
 type Managers struct {
-	Xbps Groups
+	Xbps   Groups
 	Pacman Groups
-	Paru Groups
-	Yay Groups
+	Paru   Groups
+	Yay    Groups
 }
 
 type Configuration struct {
@@ -65,9 +65,9 @@ func generateConfig(filePath string) (*Configuration, error) {
 
 	for name, manager := range pms {
 		// prefering paru over yay and pacman
-		if name == "yay" || name == "pacman"  {
+		if name == "yay" || name == "pacman" {
 			if _, ok := pms["paru"]; ok {
-			continue
+				continue
 			}
 		}
 
@@ -86,7 +86,7 @@ func generateConfig(filePath string) (*Configuration, error) {
 			group = append(group, pkg.Name)
 		}
 
-		config.Packages[name] = rawGroups{ defaultGroup: group }
+		config.Packages[name] = rawGroups{defaultGroup: group}
 	}
 
 	encoder := toml.NewEncoder(f)
