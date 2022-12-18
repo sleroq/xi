@@ -1,6 +1,6 @@
 * xi
 
-=xi= created to help install and organize applications on Linux system.
+=xi= created to help install and organize packages on Linux system.
 
 Install or remove apps by editing =$XDG_CONFIG_HOME/xi/config.toml=
 
