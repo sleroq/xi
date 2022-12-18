@@ -1,0 +1,39 @@
+* xi
+
+=xi= created to help install and organize applications on Linux system.
+
+Install or remove apps by editing =$XDG_CONFIG_HOME/xi/config.toml=
+
+Group packages however you want, then run =xi= will make sure everything installed
+
+** Getting started
+*** Install
+
+Requirements:
+- [[https://go.dev/][go]]
+
+Supported package managers:
+- pacman, paru, yay
+
+
+Clone:
+#+begin_src shell
+git clone https://github.com/sleroq/xi.git
+
+#+end_src
+
+Run install script:
+#+begin_src shell
+xi/scripts/install.sh
+#+end_src
+
+Script will build app and move it to =$GOBIN= or =$GOPATH/bin=
+
+*** First run
+
+Just run =xi= in your terminal
+
+This will generate new config in =$XDG_CONFIG_HOME/xi/config.toml=
+
+To install something - add package name to the list, then run =xi= again
+To remove something - remove or comment out package name from the list, then run =xi= again
