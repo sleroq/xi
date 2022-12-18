@@ -19,3 +19,13 @@ func PkgsToString(pkgs []Package) string {
 
 	return strings.Trim(s, " ")
 }
+
+func PkgsToStrings(pkgs []Package) []string {
+	res := []string{}
+
+	for _, pkg := range pkgs {
+		res = append(res, pkg.Name)
+	}
+
+	return res
+}

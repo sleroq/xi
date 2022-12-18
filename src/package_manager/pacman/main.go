@@ -31,7 +31,7 @@ func (*Pacman) Install(pkgs ...util.Package) error {
 }
 
 func (*Pacman) Remove(pkgs ...util.Package) error {
-	cmd := []string{"pacman", "-R", "--noconfirm"}
+	cmd := []string{"pacman", "-R"} //, "--noconfirm"}
 	res, err := util.SudoRun(append(cmd, util.PkgsToString(pkgs))...)
 	if err != nil {
 		return fmt.Errorf("executing pacman -R: %w", err)

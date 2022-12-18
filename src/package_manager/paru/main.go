@@ -31,7 +31,7 @@ func (*Paru) Install(pkgs ...util.Package) error {
 }
 
 func (*Paru) Remove(pkgs ...util.Package) error {
-	cmd := []string{"paru", "-R", "--noconfirm"}
+	cmd := []string{"paru", "-R"} //, "--noconfirm"}
 	res, err := util.SudoRun(append(cmd, util.PkgsToString(pkgs))...)
 	if err != nil {
 		return fmt.Errorf("executing paru -R: %w", err)

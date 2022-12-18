@@ -31,7 +31,7 @@ func (*Yay) Install(pkgs ...util.Package) error {
 }
 
 func (*Yay) Remove(pkgs ...util.Package) error {
-	cmd := []string{"yay", "-R", "--noconfirm"}
+	cmd := []string{"yay", "-R"} //, "--noconfirm"}
 	res, err := util.SudoRun(append(cmd, util.PkgsToString(pkgs))...)
 	if err != nil {
 		return fmt.Errorf("executing yay -R: %w", err)
