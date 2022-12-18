@@ -48,7 +48,7 @@ func addIfAvailible(pms map[string]PM, s string) (map[string]PM, error) {
 }
 
 func AvailibleManagers() (map[string]PM, error) {
-    pms := make(map[string]PM)
+	pms := make(map[string]PM)
 
 	pms, err := addIfAvailible(pms, "xbps")
 	if err != nil {

@@ -52,7 +52,6 @@ func (*Xbps) GetInstalled() ([]string, error) {
 
 	splitted := strings.Split(string(out), "\n")
 
-
 	pkgs := []string{}
 
 	for _, name := range splitted {

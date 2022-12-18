@@ -6,7 +6,7 @@ import (
 )
 
 type Package struct {
-	Name string
+	Name    string
 	Version string
 }
 

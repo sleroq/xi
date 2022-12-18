@@ -52,7 +52,6 @@ func (*Pacman) GetInstalled() ([]util.Package, error) {
 
 	splitted := strings.Split(string(out), "\n")
 
-
 	pkgs := []util.Package{}
 
 	for _, pkgString := range splitted {
