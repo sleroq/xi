@@ -2,7 +2,6 @@ package pacman
 
 import (
 	"fmt"
-	"os/exec"
 	"strings"
 	"xi/src/package_manager/util"
 )
@@ -43,9 +42,7 @@ func (*Pacman) Remove(pkgs ...util.Package) error {
 }
 
 func (*Pacman) GetInstalled() ([]util.Package, error) {
-	cmd := exec.Command("pacman", "-Qe")
-
-	out, err := cmd.Output()
+	out, err := util.Run("pacman", "-Qe")
 	if err != nil {
 		return nil, fmt.Errorf("executing pacman -Qe: %w", err)
 	}

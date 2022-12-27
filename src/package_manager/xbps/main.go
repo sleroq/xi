@@ -2,7 +2,6 @@ package xbps
 
 import (
 	"fmt"
-	"os/exec"
 	"strings"
 	"xi/src/package_manager/util"
 )
@@ -43,9 +42,7 @@ func (pm *Xbps) Remove(pkgs ...string) error {
 }
 
 func (*Xbps) GetInstalled() ([]string, error) {
-	cmd := exec.Command("xbps-query", "-m")
-
-	out, err := cmd.Output()
+	out, err := util.Run("xbps-query", "-m")
 	if err != nil {
 		return nil, fmt.Errorf("executing xbps-query -m: %w", err)
 	}

@@ -2,7 +2,6 @@ package yay
 
 import (
 	"fmt"
-	"os/exec"
 	"strings"
 	"xi/src/package_manager/util"
 )
@@ -20,7 +19,7 @@ func New() *Yay {
 
 func (*Yay) Install(pkgs ...util.Package) error {
 	cmd := []string{"yay", "-S", "--noconfirm"}
-	res, err := util.SudoRun(append(cmd, util.PkgsToStrings(pkgs)...)...)
+	res, err := util.RunIn(append(cmd, util.PkgsToStrings(pkgs)...)...)
 	if err != nil {
 		return fmt.Errorf("executing yay -S: %w", err)
 	}
@@ -32,7 +31,7 @@ func (*Yay) Install(pkgs ...util.Package) error {
 
 func (*Yay) Remove(pkgs ...util.Package) error {
 	cmd := []string{"yay", "-R"} //, "--noconfirm"}
-	res, err := util.SudoRun(append(cmd, util.PkgsToStrings(pkgs)...)...)
+	res, err := util.RunIn(append(cmd, util.PkgsToStrings(pkgs)...)...)
 	if err != nil {
 		return fmt.Errorf("executing yay -R: %w", err)
 	}
@@ -43,9 +42,7 @@ func (*Yay) Remove(pkgs ...util.Package) error {
 }
 
 func (*Yay) GetInstalled() ([]util.Package, error) {
-	cmd := exec.Command("yay", "-Qe")
-
-	out, err := cmd.Output()
+	out, err := util.Run("yay", "-Qe")
 	if err != nil {
 		return nil, fmt.Errorf("executing yay -Qe: %w", err)
 	}

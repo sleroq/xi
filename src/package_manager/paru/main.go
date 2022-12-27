@@ -2,7 +2,6 @@ package paru
 
 import (
 	"fmt"
-	"os/exec"
 	"strings"
 	"xi/src/package_manager/util"
 )
@@ -20,19 +19,18 @@ func New() *Paru {
 
 func (*Paru) Install(pkgs ...util.Package) error {
 	cmd := []string{"paru", "-S", "--noconfirm"}
-	res, err := util.SudoRun(append(cmd, util.PkgsToStrings(pkgs)...)...)
+	res, err := util.RunIn(append(cmd, util.PkgsToStrings(pkgs)...)...)
 	if err != nil {
 		return fmt.Errorf("executing paru -S: %w", err)
 	}
 
 	fmt.Println("Result:", string(res))
-
 	return nil
 }
 
 func (*Paru) Remove(pkgs ...util.Package) error {
-	cmd := []string{"paru", "-R"} //, "--noconfirm"}
-	res, err := util.SudoRun(append(cmd, util.PkgsToStrings(pkgs)...)...)
+	cmd := []string{"paru", "-R", "--noconfirm"}
+	res, err := util.RunIn(append(cmd, util.PkgsToStrings(pkgs)...)...)
 	if err != nil {
 		return fmt.Errorf("executing paru -R: %w", err)
 	}
@@ -43,9 +41,7 @@ func (*Paru) Remove(pkgs ...util.Package) error {
 }
 
 func (*Paru) GetInstalled() ([]util.Package, error) {
-	cmd := exec.Command("paru", "-Qe")
-
-	out, err := cmd.Output()
+	out, err := util.Run("paru", "-Qe")
 	if err != nil {
 		return nil, fmt.Errorf("executing paru -Qe: %w", err)
 	}
